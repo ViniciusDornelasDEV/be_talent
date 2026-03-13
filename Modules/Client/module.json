@@ -1,0 +1,10 @@
+{
+    "name": "Client",
+    "alias": "client",
+    "description": "Client management module",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Client\\Providers\\ClientServiceProvider"
+    ]
+}

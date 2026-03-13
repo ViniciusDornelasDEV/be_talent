@@ -1,1 +1,1 @@
-{"User": true, "Product": true, "Order": true, "Gateway": true}
+{"User": true, "Product": true, "Order": true, "Gateway": true, "Client": true}

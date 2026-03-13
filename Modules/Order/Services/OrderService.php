@@ -6,7 +6,7 @@ namespace Modules\Order\Services;
 
 use Illuminate\Support\Facades\DB;
 use Modules\Order\Models\Transaction;
-use Modules\Order\Repositories\ClientRepository;
+use Modules\Client\Repositories\ClientRepository;
 use Modules\Order\Repositories\TransactionProductRepository;
 use Modules\Order\Repositories\TransactionRepository;
 use Modules\Product\Repositories\ProductRepository;
