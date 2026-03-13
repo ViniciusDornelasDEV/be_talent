@@ -25,7 +25,7 @@ class UserController extends Controller
 
         return ApiResponse::success(
             UserResource::collection($users)->resolve(),
-            201
+            200
         );
     }
 
