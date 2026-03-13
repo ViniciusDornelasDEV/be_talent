@@ -1,0 +1,10 @@
+{
+    "name": "Gateway",
+    "alias": "gateway",
+    "description": "Payment gateways management module",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Gateway\\Providers\\GatewayServiceProvider"
+    ]
+}

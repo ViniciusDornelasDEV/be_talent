@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
             \Modules\User\database\seeders\UserSeeder::class,
             \Modules\Product\database\seeders\ProductSeeder::class,
             \Modules\Order\database\seeders\ClientSeeder::class,
-            \Modules\Order\database\seeders\GatewaySeeder::class,
+            \Modules\Gateway\Database\Seeders\GatewaySeeder::class,
         ]);
     }
 }

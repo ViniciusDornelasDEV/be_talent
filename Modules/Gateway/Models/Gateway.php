@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Order\Models;
+namespace Modules\Gateway\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

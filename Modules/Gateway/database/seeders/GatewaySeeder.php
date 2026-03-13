@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Modules\Order\Database\Seeders;
+namespace Modules\Gateway\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Order\Models\Gateway;
+use Modules\Gateway\Models\Gateway;
 
 class GatewaySeeder extends Seeder
 {
