@@ -10,6 +10,7 @@ use Modules\Client\Repositories\ClientRepository;
 use Modules\Order\Repositories\TransactionProductRepository;
 use Modules\Order\Repositories\TransactionRepository;
 use Modules\Product\Repositories\ProductRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class OrderService
 {
@@ -32,6 +33,16 @@ class OrderService
 
             return $transaction;
         });
+    }
+
+    public function listTransactions(): Collection
+    {
+        return $this->transactions->allWithRelations();
+    }
+
+    public function getTransactionWithDetails(int $id): ?Transaction
+    {
+        return $this->transactions->findWithRelations($id);
     }
 
     private function resolveClient(array $data)

@@ -6,6 +6,7 @@ namespace Modules\Order\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Modules\Order\Http\Controllers\OrderController;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->routes(function (): void {
             Route::middleware('api')
-                ->prefix('api/v1')
                 ->group(module_path('Order', 'routes/api.php'));
         });
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Order\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TransactionProduct extends Model
 {
@@ -16,5 +17,10 @@ class TransactionProduct extends Model
         'quantity',
         'amount',
     ];
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(\Modules\Product\Models\Product::class);
+    }
 }
 
