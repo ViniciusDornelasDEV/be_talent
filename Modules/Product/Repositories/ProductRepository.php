@@ -30,5 +30,10 @@ class ProductRepository
 
         return $product;
     }
+
+    public function findById(int $id): ?Product
+    {
+        return $this->model->newQuery()->find($id);
+    }
 }
 
