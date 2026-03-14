@@ -11,6 +11,7 @@ use Modules\Order\Repositories\TransactionProductRepository;
 use Modules\Order\Repositories\TransactionRepository;
 use Modules\Product\Repositories\ProductRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Modules\Order\Jobs\ProcessPaymentJob;
 
 class OrderService
 {
@@ -30,6 +31,12 @@ class OrderService
             $transaction = $this->createTransaction($data, $client->id, $totalAmount);
 
             $this->createTransactionProducts($transaction->id, $resolvedItems);
+
+            ProcessPaymentJob::dispatch(
+                $transaction->id,
+                $data['client'] ?? [],
+                $data['card'] ?? [],
+            );
 
             return $transaction;
         });

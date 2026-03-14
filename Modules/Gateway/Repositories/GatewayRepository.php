@@ -29,5 +29,13 @@ class GatewayRepository
 
         return $gateway;
     }
+
+    public function activeOrderedByPriority(): Collection
+    {
+        return $this->model->newQuery()
+            ->where('is_active', true)
+            ->orderBy('priority')
+            ->get();
+    }
 }
 

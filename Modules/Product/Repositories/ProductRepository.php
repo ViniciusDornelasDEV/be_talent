@@ -35,5 +35,16 @@ class ProductRepository
     {
         return $this->model->newQuery()->find($id);
     }
+
+    public function findByIds(array $ids): Collection
+    {
+        if ($ids === []) {
+            return new Collection();
+        }
+
+        return $this->model->newQuery()
+            ->whereIn('id', $ids)
+            ->get();
+    }
 }
 
