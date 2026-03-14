@@ -76,5 +76,77 @@ class PaymentService
 
         return PaymentResult::failure();
     }
+
+    public function refund(Transaction $transaction): bool
+    {
+        if ($transaction->status === 'refunded') {
+            PaymentLogger::refundAlreadyProcessed($transaction->id);
+
+            return true;
+        }
+
+        if ($transaction->status !== 'paid') {
+            PaymentLogger::refundFailure(
+                $transaction->id,
+                $transaction->gateway_id,
+                $transaction->external_id,
+            );
+
+            return false;
+        }
+
+        $gateway = $this->gateways->findById($transaction->gateway_id ?? 0);
+        if ($gateway === null) {
+            PaymentLogger::refundFailure(
+                $transaction->id,
+                null,
+                $transaction->external_id,
+            );
+
+            return false;
+        }
+
+        $strategy = $this->factory->make($gateway->name);
+
+        PaymentLogger::refundAttempt(
+            $transaction->id,
+            $gateway->id,
+            $transaction->external_id,
+        );
+
+        try {
+            $success = $strategy->refund($transaction);
+
+            if ($success) {
+                $transaction->status = 'refunded';
+                $transaction->save();
+
+                PaymentLogger::refundSuccess(
+                    $transaction->id,
+                    $gateway->id,
+                    $transaction->external_id,
+                );
+
+                return true;
+            }
+
+            PaymentLogger::refundFailure(
+                $transaction->id,
+                $gateway->id,
+                $transaction->external_id,
+            );
+
+            return false;
+        } catch (\Throwable $e) {
+            PaymentLogger::refundFailure(
+                $transaction->id,
+                $gateway->id,
+                $transaction->external_id,
+            );
+            report($e);
+
+            return false;
+        }
+    }
 }
 

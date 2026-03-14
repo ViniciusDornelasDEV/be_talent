@@ -13,6 +13,6 @@ abstract class AbstractGateway
 
     abstract public function charge(Transaction $transaction, array $client, array $card): PaymentResult;
 
-    abstract public function refund(Transaction $transaction): array;
+    abstract public function refund(Transaction $transaction): bool;
 }
 

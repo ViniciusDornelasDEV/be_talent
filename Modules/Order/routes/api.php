@@ -11,6 +11,7 @@ Route::prefix('api/v1')->group(function (): void {
     Route::middleware('auth:sanctum')->group(function (): void {
         Route::get('/orders', [OrderController::class, 'index']);
         Route::get('/orders/{transaction}', [OrderController::class, 'show']);
+        Route::post('/orders/{transaction}/refund', [OrderController::class, 'refund']);
     });
 });
 

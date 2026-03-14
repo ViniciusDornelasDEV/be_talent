@@ -6,6 +6,7 @@ namespace Modules\Product\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Support\Money;
 
 class ProductResource extends JsonResource
 {
@@ -16,7 +17,7 @@ class ProductResource extends JsonResource
         return [
             'id'         => $this->id,
             'name'       => $this->name,
-            'amount'     => $this->amount,
+            'amount'     => Money::centsToDecimal((int) $this->amount),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

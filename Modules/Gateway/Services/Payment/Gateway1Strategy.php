@@ -80,9 +80,32 @@ class Gateway1Strategy extends AbstractGateway
         return PaymentResult::success(null, $externalId);
     }
 
-    public function refund(Transaction $transaction): array
+    public function refund(Transaction $transaction): bool
     {
-        return ['success' => false];
+        $externalId = $transaction->external_id;
+        if ($externalId === null || $externalId === '') {
+            return false;
+        }
+
+        $loginResponse = Http::post(env('GATEWAY1_URL').'/login', [
+            'email' => 'dev@betalent.tech',
+            'token' => 'FEC9BB078BF338F464F96B48089EB498',
+        ]);
+
+        if (! $loginResponse->successful()) {
+            return false;
+        }
+
+        $token = $loginResponse->json('token');
+        if (! is_string($token) || $token === '') {
+            return false;
+        }
+
+        $response = Http::withToken($token)->post(
+            env('GATEWAY1_URL').'/transactions/'.$externalId.'/charge_back',
+        );
+
+        return $response->successful();
     }
 }
 

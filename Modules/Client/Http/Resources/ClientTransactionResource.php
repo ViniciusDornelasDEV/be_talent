@@ -6,6 +6,7 @@ namespace Modules\Client\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Support\Money;
 use Modules\Order\Models\TransactionProduct;
 use Modules\Product\Models\Product;
 
@@ -25,17 +26,17 @@ class ClientTransactionResource extends JsonResource
                 $product = Product::query()->find($tp->product_id);
 
                 return [
-                    'product_id' => $tp->product_id,
+                    'product_id'   => $tp->product_id,
                     'product_name' => $product?->name,
-                    'quantity'   => $tp->quantity,
-                    'amount'     => $tp->amount,
+                    'quantity'     => $tp->quantity,
+                    'amount'       => Money::centsToDecimal((int) $tp->amount),
                 ];
             })->all();
 
         return [
             'id'                => $transaction->id,
             'status'            => $transaction->status,
-            'amount'            => $transaction->amount,
+            'amount'            => Money::centsToDecimal((int) $transaction->amount),
             'card_last_numbers' => $transaction->card_last_numbers,
             'gateway_id'        => $transaction->gateway_id,
             'external_id'       => $transaction->external_id,

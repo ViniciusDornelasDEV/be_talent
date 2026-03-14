@@ -38,9 +38,21 @@ class Gateway2Strategy extends AbstractGateway
         return PaymentResult::success(null, $externalId);
     }
 
-    public function refund(Transaction $transaction): array
+    public function refund(Transaction $transaction): bool
     {
-        return ['success' => false];
+        $externalId = $transaction->external_id;
+        if ($externalId === null || $externalId === '') {
+            return false;
+        }
+
+        $response = Http::withHeaders([
+            'Gateway-Auth-Token'  => 'tk_f2198cc671b5289fa856',
+            'Gateway-Auth-Secret' => '3d15e8ed6131446ea7e3456728b1211f',
+        ])->post(env('GATEWAY2_URL').'/transacoes/reembolso', [
+            'id' => $externalId,
+        ]);
+
+        return $response->successful();
     }
 }
 

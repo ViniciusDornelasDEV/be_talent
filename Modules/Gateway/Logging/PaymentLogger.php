@@ -162,4 +162,64 @@ class PaymentLogger
         }
         Log::info('Payment: charge request succeeded', $context);
     }
+
+    public static function refundAttempt(int $transactionId, ?int $gatewayId = null, ?string $externalId = null): void
+    {
+        $context = ['transaction_id' => $transactionId];
+        if ($gatewayId !== null) {
+            $context['gateway_id'] = $gatewayId;
+        }
+        if ($externalId !== null) {
+            $context['external_id'] = $externalId;
+        }
+        Log::info('Payment: refund attempt', $context);
+    }
+
+    public static function refundSuccess(int $transactionId, ?int $gatewayId = null, ?string $externalId = null): void
+    {
+        $context = ['transaction_id' => $transactionId];
+        if ($gatewayId !== null) {
+            $context['gateway_id'] = $gatewayId;
+        }
+        if ($externalId !== null) {
+            $context['external_id'] = $externalId;
+        }
+        Log::info('Payment: refund succeeded', $context);
+    }
+
+    public static function refundFailure(int $transactionId, ?int $gatewayId = null, ?string $externalId = null): void
+    {
+        $context = ['transaction_id' => $transactionId];
+        if ($gatewayId !== null) {
+            $context['gateway_id'] = $gatewayId;
+        }
+        if ($externalId !== null) {
+            $context['external_id'] = $externalId;
+        }
+        Log::warning('Payment: refund failed', $context);
+    }
+
+    public static function refundAlreadyProcessed(int $transactionId): void
+    {
+        Log::info('Payment: refund already processed', [
+            'transaction_id' => $transactionId,
+        ]);
+    }
+
+    public static function refundUnauthorizedAttempt(
+        int $userId,
+        int $transactionId,
+        string $role,
+        ?int $gatewayId = null,
+    ): void {
+        $context = [
+            'user_id'        => $userId,
+            'transaction_id' => $transactionId,
+            'role'           => $role,
+        ];
+        if ($gatewayId !== null) {
+            $context['gateway_id'] = $gatewayId;
+        }
+        Log::warning('Payment: refund unauthorized attempt', $context);
+    }
 }
